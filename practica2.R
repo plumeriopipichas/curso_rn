@@ -22,7 +22,6 @@ row.names(salida)<-row.names(target)
 
 error <-  target-salida
 
-
 cat("Pesos iniciales:")
 print(W)
 cat("\n")
@@ -33,17 +32,18 @@ cat("Error inicial:")
 print(error)
 cat("\n")
 
+grafs<-grafica_rn(p,target,W) 
+
 for (i in 1:10){
   bias <- bias+error
   W <- W+error%*%t(p)
   salida <- sapply(W%*%p+bias,HardLimit)
   error <-  target-salida
   if (length(which(!error==ceros))==0){
-    print(c("Iteraciones:",i))
-    cat("\n")
-    break
+      print(c("Iteraciones:",i))
+      cat("\n")
+      break
   }
-  
 }
 
 cat("Peso final:")
@@ -55,3 +55,8 @@ cat("\n")
 cat("Error final:")
 print(error)
 cat("\n")
+
+grafs<-append(grafs,grafica_rn(p,target,W))
+
+#show(do.call("grid.arrange",c(grafs,ncol=3)))
+
